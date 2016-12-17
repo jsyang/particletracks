@@ -1,2 +1,3 @@
 # particletracks
-Sub-atomic particle effects graphics toy
+
+Sub-atomic particle effects graphics widget

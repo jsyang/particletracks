@@ -1,0 +1,22 @@
+{
+  "name": "particletracks",
+  "version": "0.0.1",
+  "description": "Graphics toy for simulating sub-atomic particle tracks inside a blue chamber",
+  "author": {
+    "name": "jsyang.ca@gmail.com",
+    "url": "http://jsyang.ca/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jsyang/particletracks.git"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "load-grunt-config": "^0.19.2"
+  }
+}
