@@ -53,15 +53,20 @@ function setStrokeStyle(styleString) {
     ctx2d.strokeStyle = styleString;
 }
 
-function setStrokeWidth(width){
+function setLineWidth(width) {
     ctx2d.lineWidth = width;
+}
+
+function setLineCap(capType) {
+    ctx2d.lineCap = capType;
 }
 
 module.exports = {
     init           : init,
     line           : line,
     setStrokeStyle : setStrokeStyle,
-    setStrokeWidth : setStrokeWidth,
+    setLineWidth   : setLineWidth,
+    setLineCap     : setLineCap,
     circle         : circle,
     clear          : clear
 };
