@@ -1,5 +1,6 @@
-var Graphics = require('./graphics');
-var Particles = require('./particles');
+var Graphics    = require('./graphics');
+var Particles   = require('./particles');
+var Querystring = require('./querystring');
 
 var raf;
 
@@ -8,8 +9,10 @@ function step() {
     raf = requestAnimationFrame(step);
 }
 
-window.addEventListener('DOMContentLoaded', function onDOMContentLoaded(){
+window.addEventListener('DOMContentLoaded', function onDOMContentLoaded() {
     Graphics.init();
-    Particles.init();
+    var particleInitOptions = Querystring.toDict(location.search);
+    Particles.init(particleInitOptions);
+
     step();
 });
