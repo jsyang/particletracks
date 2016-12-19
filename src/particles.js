@@ -1,35 +1,38 @@
 var Graphics = require('./graphics');
 var Random   = require('./random');
 
-var particles = [];
+var particles;
 
-// Particle defaults
-var count    = 10;
-var dx       = 1;
-var dy       = 1;
-var ddx      = 0.4;
-var ddy      = 0.4;
-var lifespan = 2000;
+var DEFAULTS = {
+    count                     : 10,
+    ddx                       : 0.4,
+    ddy                       : 0.4,
+    lifespan                  : 2000,
+    shouldClearTracksPerFrame : false,
+    fiddleFactorMin           : 0.0001,
+    fiddleFactorMax           : 0.01
+};
 
-var shouldClearTracksPerFrame = false;
-var fiddleFactorMin           = 0.0001;
-var fiddleFactorMax           = 0.01;
+var shouldClearTracksPerFrame;
 
 function init(options) {
+    var count, dx, dy, ddx, ddy, lifespan, fiddleFactorMin, fiddleFactorMax;
 
     if (options) {
-        count    = options.count || count;
-        dx       = options.dx || dx;
-        dy       = options.dy || dy;
-        ddx      = options.ddx || ddx;
-        ddy      = options.ddy || ddy;
-        lifespan = options.lifespan || lifespan;
+        count    = options.count || DEFAULTS.count;
+        dx       = options.dx || 0;
+        dy       = options.dy || 0;
+        ddx      = options.ddx || DEFAULTS.ddx;
+        ddy      = options.ddy || DEFAULTS.ddy;
+        lifespan = options.lifespan || DEFAULTS.lifespan;
 
-        shouldClearTracksPerFrame = options.shouldClearTracksPerFrame || shouldClearTracksPerFrame;
+        shouldClearTracksPerFrame = Boolean(options.shouldClearTracksPerFrame);
 
-        fiddleFactorMax = options.fiddleFactorMax || fiddleFactorMax;
-        fiddleFactorMin = options.fiddleFactorMin || fiddleFactorMin;
+        fiddleFactorMax = options.fiddleFactorMax || DEFAULTS.fiddleFactorMax;
+        fiddleFactorMin = options.fiddleFactorMin || DEFAULTS.fiddleFactorMin;
     }
+
+    particles = [];
 
     for (var i = count; i > 0; i--) {
         particles.push({
@@ -58,6 +61,8 @@ function init(options) {
         p.lastY  = p.y;
         p.lastY2 = p.y;
     });
+
+    Graphics.clear();
 }
 
 function moveParticle(p) {
@@ -121,7 +126,22 @@ function step() {
     particles = particles.filter(metaboliseParticle);
 }
 
+function getAllOptions(options) {
+    var allOptions = {};
+    for (var k in DEFAULTS) {
+        if (options[k] !== undefined) {
+            allOptions[k] = options[k];
+        } else {
+            allOptions[k] = DEFAULTS[k];
+        }
+    }
+
+    return allOptions;
+}
+
 module.exports = {
-    init : init,
-    step : step
+    DEFAULTS      : DEFAULTS,
+    getAllOptions : getAllOptions,
+    init          : init,
+    step          : step
 };

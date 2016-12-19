@@ -1,18 +1,20 @@
-var Graphics    = require('./graphics');
-var Particles   = require('./particles');
-var Querystring = require('./querystring');
+var Graphics            = require('./graphics');
+var ParticlesController = require('./particlesController');
+var Querystring         = require('./querystring');
 
-var raf;
+var controller;
 
 function step() {
-    Particles.step();
-    raf = requestAnimationFrame(step);
+    controller.step();
+    requestAnimationFrame(step);
 }
 
 window.addEventListener('DOMContentLoaded', function onDOMContentLoaded() {
     Graphics.init();
-    var particleInitOptions = Querystring.toDict(location.search);
-    Particles.init(particleInitOptions);
+
+    controller = new ParticlesController(
+        Querystring.toDict(location.search)
+    );
 
     step();
 });
