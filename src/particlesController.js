@@ -17,7 +17,14 @@ function ParticlesController(options) {
 
     optionDictKeys.forEach(setOwnProperty.bind(this));
     optionDictKeys.forEach(function addGUI(key) {
-        var guiOption = gui.add(savedOptions, key);
+        var guiOption;
+
+        if (/color/i.test(key)) {
+            guiOption = gui.addColor(savedOptions, key);
+        } else {
+            guiOption = gui.add(savedOptions, key);
+        }
+
         guiOption.onFinishChange(refresh);
     });
 

@@ -10,10 +10,12 @@ var DEFAULTS = {
     lifespan                  : 2000,
     shouldClearTracksPerFrame : false,
     fiddleFactorMin           : 0.0001,
-    fiddleFactorMax           : 0.01
+    fiddleFactorMax           : 0.01,
+    trailColorRGB             : [255, 255, 255]
 };
 
 var shouldClearTracksPerFrame;
+var trailColorRGB;
 
 function init(options) {
     var count, dx, dy, ddx, ddy, lifespan, fiddleFactorMin, fiddleFactorMax;
@@ -30,6 +32,19 @@ function init(options) {
 
         fiddleFactorMax = options.fiddleFactorMax || DEFAULTS.fiddleFactorMax;
         fiddleFactorMin = options.fiddleFactorMin || DEFAULTS.fiddleFactorMin;
+
+        if (!options.trailColorRGB) {
+            trailColorRGB = DEFAULTS.trailColorRGB;
+        } else if (typeof options.trailColorRGB === 'string') {
+            trailColorRGB = options.trailColorRGB.split(',');
+            trailColorRGB.forEach(Number);
+        } else if (options.trailColorRGB instanceof Array) {
+            trailColorRGB = options.trailColorRGB;
+        }
+
+        trailColorRGB[0] >>= 0;
+        trailColorRGB[1] >>= 0;
+        trailColorRGB[2] >>= 0;
     }
 
     particles = [];
@@ -95,16 +110,12 @@ function moveParticle(p) {
 }
 
 function drawParticle(p) {
-    var rgbaString = [
-        255,
-        255,
-        255,
-        //Math.log(p.lifespan).toFixed(2)
+    var rgba = trailColorRGB.concat(
         (p.lifespan / Math.log(p.lifespan * p.ddx * p.ddy)).toFixed(2)
-    ];
+    );
 
     Graphics.setLineWidth(Math.pow(p.ddx * p.ddy, 0.1));
-    Graphics.setStrokeStyle('rgba(' + rgbaString + ')');
+    Graphics.setStrokeStyle('rgba(' + rgba + ')');
 
     Graphics.line(p.lastX, p.lastY, p.x, p.y);
     Graphics.line(p.lastX, p.lastY, p.lastX2, p.lastY2);
