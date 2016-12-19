@@ -6,10 +6,16 @@ function setOwnProperty(key) {
     this[key] = savedOptions[key];
 }
 
+function viewOnGitHub() {
+    location.href = 'http://github.com/jsyang/particletracks';
+}
+
 function ParticlesController(options) {
     var gui = new dat.GUI();
 
     savedOptions = Particles.getAllOptions(options || {});
+
+    savedOptions['View on GitHub'] = viewOnGitHub;
 
     gui.remember(savedOptions);
 
